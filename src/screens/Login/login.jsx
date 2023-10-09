@@ -11,6 +11,8 @@ const Login = () => {
     const Injected = new InjectedConnector({
         supportedChainIds: [1, 3, 4, 5, 42, 1337]
     });
+    //This auto activates web3 react with the injected wallet
+    activate(Injected)
 
     return (
         <div>
