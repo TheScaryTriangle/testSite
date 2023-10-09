@@ -16,10 +16,9 @@ import * as Yup from 'yup';
  * @dev This is the main dashboard for the site.
  *      Default to this page
  */
-const Dashboard = () => {
-    const [currentBalance, setCurrentBalance] = useState(0)
+const Voting = () => {
+    const [votes, setVotes] = useState([])
     const { setContract, contract } = useContractContext(); // Use the context hook to access setContract
-    const { active, chainId, account } = useWeb3React();
 
     useEffect(() => {
         setup()
@@ -31,13 +30,10 @@ const Dashboard = () => {
      */
     const setup = async () => {
         try {
-            const contract = await init(tokenContractABI);
-            setContract(contract)
-            const userBalance = await TokenFunctions.getBalance(
-                contract,
-                account
-            )
-            setCurrentBalance(userBalance.toString());
+            const controlerContract = await init(votingContractAPI);
+            const contracts = await controlerContract.methods.getAllVotingContracts().call()
+            console.log(contracts)
+            setVotes(contracts)
         } catch (e) {
             console.log(e)
         }
@@ -47,9 +43,11 @@ const Dashboard = () => {
 
     return (
         <div>
-            <div>Current balance: {currentBalance}</div>
+
         </div>
     )
 }
 
-export default Dashboard;
+
+
+export default Voting;
