@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 //Web3
 import { init, getNumber } from '../../web3/initiation';
 import { useContractContext } from '../../context/contractContext';
-import { getOwner } from '../../web3/owner';
 import { useWeb3React } from '@web3-react/core'
 import TokenFunctions from '../../web3/TokenFunctions';
 import tokenContractABI from '../../web3/contracts/Token.json'
@@ -12,8 +11,6 @@ import tokenContractABI from '../../web3/contracts/Token.json'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-
-import { sendEther } from '../../web3/sendEth';
 /**
  * @dev This is the main dashboard for the site.
  *      Default to this page

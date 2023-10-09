@@ -1,22 +1,17 @@
-import { InjectedConnector } from "@web3-react/injected-connector";
-import { useWeb3React } from '@web3-react/core'
+import React, { useEffect, useState } from 'react';
+import Web3Login from '../../components/Web3Login';
 
 /**
  * @dev Use this as the login page if the user dosen't have a wallet provider
  * @returns Login page
  */
 const Login = () => {
-    const { activate } = useWeb3React();
-
-    const Injected = new InjectedConnector({
-        supportedChainIds: [1, 3, 4, 5, 42, 1337]
-    });
-    //This auto activates web3 react with the injected wallet
-    activate(Injected)
 
     return (
         <div>
-            <button onClick={() => { activate(Injected) }}><h1>Connect wallet</h1></button>
+            <h1>Login</h1>
+            <p>This app requires you to have a  wallet connected</p>
+            <Web3Login/>
         </div>
     )
 }
