@@ -1,24 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 //Web3
-import { init, getNumber } from '../../web3/initiation';
-import { useContractContext } from '../../context/contractContext';
-import { useWeb3React } from '@web3-react/core'
-import TokenFunctions from '../../web3/TokenFunctions';
-import tokenContractABI from '../../web3/contracts/Token.json'
-import votingContractAPI from '../../web3/contracts/VotingControler.json'
-
-//Formik
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { init, getAccount } from '../../web3/initiation';
+import votingContractAPI from '../../web3/contracts/Voting.json'
 
 /**
  * @dev This is the main dashboard for the site.
  *      Default to this page
  */
-const Voting = () => {
-    const [votes, setVotes] = useState([])
-    const { setContract, contract } = useContractContext(); // Use the context hook to access setContract
+const VotingSelection = () => {
+    const [votingOptions, setVotingOptions] = useState([])
+    const [contract, setContract] = useState(null)
+
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const contractAddress = queryParams.get('address');
 
     useEffect(() => {
         setup()
@@ -30,24 +27,51 @@ const Voting = () => {
      */
     const setup = async () => {
         try {
-            const controlerContract = await init(votingContractAPI);
-            const contracts = await controlerContract.methods.getAllVotingContracts().call()
-            console.log(contracts)
-            setVotes(contracts)
+            const contractObj = await init(votingContractAPI);
+            setContract(contractObj)
+            const choicesCall = await contractObj.methods.getAllChoices().call()
+            setVotingOptions(choicesCall)
         } catch (e) {
             console.log(e)
         }
     }
 
-
+    const sendVote = async (option) => {
+        try {
+            console.log(votingOptions[option])
+            const account = await getAccount()
+            console.log(await getAccount())
+            contract.methods.vote(0).send({
+                from: await getAccount(),
+                // gasPrice: '100000000',
+                // gas: '1000000',
+            })
+        } catch (e) {
+            console.log(e)
+        }
+    }
+    console.log(contract)
 
     return (
         <div>
-
+            <h2>Options:</h2>
+            {votingOptions.map((option, i) => {
+                return (
+                    <div key={i}>
+                        {option.name}
+                        <button
+                            type="button"
+                            onClick={() => sendVote(i)}
+                        >
+                            Click Me
+                        </button>
+                    </div>
+                );
+            })}
         </div>
     )
 }
 
 
 
-export default Voting;
+export default VotingSelection;

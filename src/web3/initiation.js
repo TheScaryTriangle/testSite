@@ -1,6 +1,5 @@
 import Web3 from 'web3'
 
-let selectedAccount;
 let contract;
 let isInitialized = false;
 
@@ -9,11 +8,30 @@ let isInitialized = false;
  * @todo Pass the contract JSON to the function instead of importing here
  * @returns Contract The contract object
  */
-export const init = async (contractABI) => {
+export const init = async (contractABI, altAddress) => {
     let provider = window.ethereum;
+    const web3 = new Web3(provider);
+
+    let contractAddress;
+
+    if (altAddress) {
+        contractAddress = altAddress; // Use the altAddress if provided
+    } else {
+        const networkId = await web3.eth.net.getId();
+        contractAddress = contractABI.networks[networkId].address;
+    }
+
+    // Check if the contract exists on the network here
+    contract = await new web3.eth.Contract(contractABI.abi, contractAddress);
+    isInitialized = true;
+    return contract;
+};
+
+export const getAccount = async () => {
+    let provider = window.ethereum;
+    let selectedAccount;
 
     if (typeof provider !== 'undefined') {
-
         await provider
             .request({ method: 'eth_requestAccounts' })
             .then((accounts) => {
@@ -27,16 +45,9 @@ export const init = async (contractABI) => {
             console.log(`Selected account changed to ${selectedAccount}`);
         });
     }
-    const web3 = new Web3(provider);
+    return selectedAccount
+}
 
-    //await web3.eth.net.getId()
-    const networkId = await web3.eth.net.getId();
-    //Check if the contract exists on the network here
-    
-    contract = await new web3.eth.Contract(contractABI.abi, contractABI.networks[networkId].address);
-    isInitialized = true;
-    return contract
-};
 
 /**
  * @todo Remove this function from this file 
