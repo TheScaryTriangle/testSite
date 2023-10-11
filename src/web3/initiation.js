@@ -12,7 +12,6 @@ export const init = async (contractABI, altAddress) => {
     let provider = window.ethereum;
     // const web3 = new Web3(provider);
     const web3 = new Web3("HTTP://127.0.0.1:7545");
-    console.log(web3)
 
     let contractAddress;
 
@@ -20,14 +19,12 @@ export const init = async (contractABI, altAddress) => {
         contractAddress = altAddress; // Use the altAddress if provided
     } else {
         const networkId = await web3.eth.net.getId();
-        contractAddress = contractABI.networks[1337].address;
-        console.log(contractAddress)
+        contractAddress = contractABI.networks[networkId].address;
     }
 
     // Check if the contract exists on the network here
     contract = new web3.eth.Contract(contractABI.abi, contractAddress);
     isInitialized = true;
-    console.log(contract)
     return contract;
 };
 

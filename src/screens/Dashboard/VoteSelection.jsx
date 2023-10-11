@@ -31,26 +31,27 @@ const VotingSelection = () => {
             setContract(contractObj)
             const choicesCall = await contractObj.methods.getAllChoices().call()
             setVotingOptions(choicesCall)
-        } catch (e) {
-            console.log(e)
-        }
-    } 
+            const accountHasVotedCall = await contractObj.methods.hasVoted(await getAccount()).call()
 
-    const sendVote = async (option) => {
-        try {
-            console.log(votingOptions[option])
-            const account = await getAccount()
-            console.log(await getAccount())
-            contract.methods.vote(0).send({
-                from: await getAccount(),
-                // gasPrice: '100000000',
-                // gas: '1000000',
-            })
+            console.log(accountHasVotedCall)
         } catch (e) {
             console.log(e)
         }
     }
-    console.log(contract)
+
+    const sendVote = async (option) => {
+        try {
+            const account = await getAccount()
+            const vote = await contract.methods.vote(0).send({
+                from: account,
+                // gasPrice: '100000000',
+                // gas: '1000000',
+            })
+            console.log(vote)
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
     return (
         <div>
@@ -65,6 +66,9 @@ const VotingSelection = () => {
                         >
                             Click Me
                         </button>
+                        <div>
+                            Votes: {option.votes.toString()}
+                        </div>
                     </div>
                 );
             })}

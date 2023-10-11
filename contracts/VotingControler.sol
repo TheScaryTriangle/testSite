@@ -3,25 +3,26 @@ pragma solidity ^0.8.9;
 
 import "./Voting.sol";
 
-contract VotingControler {
-    voteData[] public votingContracts;
+contract VotingController {
+    VoteData[] public votingContracts;
 
-    struct voteData {
+    struct VoteData {
         string name;
-        Voting votingContracts;
+        address votingContract; // Use address to store the Voting contract's address
     }
 
-    function getAllVotingContracts() public view returns (voteData[] memory) {
+    function getAllVotingContracts() public view returns (VoteData[] memory) {
         return votingContracts;
     }
 
     function createNewVote(string memory _name) public {
         Voting newContract = new Voting();
-        votingContracts.push(voteData(_name, newContract));
+        votingContracts.push(VoteData(_name, address(newContract))); // Store the Voting contract's address
     }
 
     constructor() {
         createNewVote("First");
         createNewVote("Second");
+        createNewVote("Third");
     }
 }

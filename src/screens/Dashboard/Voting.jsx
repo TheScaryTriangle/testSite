@@ -22,7 +22,7 @@ const Voting = () => {
      */
     const setup = async () => {
         try {
-            const controlerContract = await init(votingContractAPI);
+            const controlerContract = await init(votingContractAPI, "0xE9282835Cf02C6f95EcBffFea8b16B6Ab7A1C068");
             const contracts = await controlerContract.methods.getAllVotingContracts().call()
             setVotes(contracts)
         } catch (e) {
@@ -32,9 +32,11 @@ const Voting = () => {
 
     return (
         <div>
-            {votes.map((contract) => {
+            {votes.map((contract, i) => {
                 return (
-                    <VoteSelection contractData={contract} />
+                    <div key={i}>
+                        <VoteSelection contractData={contract} />
+                    </div>
                 )
             })}
         </div>

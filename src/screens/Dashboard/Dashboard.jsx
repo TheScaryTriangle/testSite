@@ -47,6 +47,12 @@ const Dashboard = () => {
                 currentBalance={currentBalance}
                 contract={contract}
                 account={account}
+                onSuccess={() => setup()}
+            />
+            <TokenTransfer
+                currentBalance={currentBalance}
+                contract={contract}
+                account={account}
             />
         </div>
     )
