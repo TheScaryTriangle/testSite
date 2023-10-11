@@ -1,3 +1,5 @@
+import Web3 from "web3";
+
 export const getBalance = async (contract, address) => {
     try {
         const balance = await contract.methods.balanceOf(address).call();
@@ -9,7 +11,12 @@ export const getBalance = async (contract, address) => {
 
 export const transfer = async ({ contract, to, amount, from }) => {
     try {
-        const test = await contract.methods.mint(1).send({from:from})
+        console.log(from)
+        const test = await contract.methods.mint(1).send({
+            from: from,
+            // gas: 1500000,
+            // gasPrice: '20000000000'
+        })
         // const transferCall = await contract.methods.transfer(
         //     to, 
         //     amount
@@ -26,7 +33,23 @@ export const transfer = async ({ contract, to, amount, from }) => {
     }
 }
 
+export const mint = async ({ contract, amount, from }) => {
+    console.log(contract)
+    try {
+        const test = await contract.methods.mint(1).send({
+            from: from,
+            // gas: 1500000,
+            // gasPrice: '20000000000'
+        })
+        return test
+    } catch (e) {
+        return e
+    }
+}
+
+
 export default {
     getBalance,
     transfer,
+    mint
 }

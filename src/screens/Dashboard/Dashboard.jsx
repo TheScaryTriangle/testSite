@@ -8,7 +8,7 @@ import TokenFunctions from '../../web3/TokenFunctions';
 import tokenContractABI from '../../web3/contracts/Token.json'
 
 import TokenTransfer from '../../components/TokenTransfer';
-
+import Mint from '../../components/Mint';
 /**
  * @dev This is the main dashboard for the site.
  *      Default to this page
@@ -43,7 +43,7 @@ const Dashboard = () => {
     return (
         <div>
             <div>Current balance: {currentBalance}</div>
-            <TokenTransfer
+            <Mint
                 currentBalance={currentBalance}
                 contract={contract}
                 account={account}
