@@ -11,20 +11,19 @@ contract Voting {
     choiceData[] public choices;
     uint8 public numberOfChoices;
 
-    function vote() public {
+    function vote(uint8 _choice) public {
         // require(!hasVoted[msg.sender]);
         hasVoted[msg.sender] = true;
-        choices[1].votes++;
+        choices[_choice].votes++;
     }
 
     function getAllChoices() public view returns (choiceData[] memory) {
         return choices;
     }
 
-    //choiceData[] memory _initalChoices
     constructor() {
         numberOfChoices = 2;
-        choices.push(choiceData("Test", 0));
-        choices.push(choiceData("Test2", 0));
+        choices[0] = choiceData("Test", 0);
+        choices[1] = choiceData("Test2", 0);
     }
 }

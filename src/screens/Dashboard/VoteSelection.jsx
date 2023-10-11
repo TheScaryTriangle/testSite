@@ -34,7 +34,7 @@ const VotingSelection = () => {
         } catch (e) {
             console.log(e)
         }
-    }
+    } 
 
     const sendVote = async (option) => {
         try {

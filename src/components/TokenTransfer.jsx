@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
 //Web3
-import { init, getNumber } from '../../web3/initiation';
-import { useContractContext } from '../../context/contractContext';
-import { useWeb3React } from '@web3-react/core'
-import TokenFunctions from '../../web3/TokenFunctions';
-import tokenContractABI from '../../web3/contracts/Token.json'
-import votingContractAPI from '../../web3/contracts/VotingControler.json'
+import TokenFunctions from '../web3/TokenFunctions';
 
 //Formik
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-const TokenTransfer = () => {
+const TokenTransfer = ({currentBalance = 0, contract,account}) => {
         // Define the Formik form
         const formik = useFormik({
             initialValues: {
@@ -45,12 +40,13 @@ const TokenTransfer = () => {
                     // Handle the response as needed
                     console.log('Transfer response:', response);
                     // Reset the form
-                    resetForm();
+                    // resetForm();
                   } catch (error) {
                     console.error('Transfer error:', error);
                   }              
             },
         });
+
     return (
         <form onSubmit={formik.handleSubmit}>
             <div>

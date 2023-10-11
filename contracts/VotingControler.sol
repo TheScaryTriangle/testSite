@@ -20,8 +20,7 @@ contract VotingControler {
         votingContracts.push(voteData(_name, newContract));
     }
 
-    constructor() //choiceData[] memory _initalChoices
-    {
+    constructor() {
         createNewVote("First");
         createNewVote("Second");
     }

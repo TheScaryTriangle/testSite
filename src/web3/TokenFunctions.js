@@ -9,19 +9,18 @@ export const getBalance = async (contract, address) => {
 
 export const transfer = async ({ contract, to, amount, from }) => {
     try {
-        console.log(to)
-        console.log(amount)
-        console.log(from)
-        const transferCall = await contract.methods.transfer(
-            to, 
-            amount
-        ).send({
-            from: "0x2402d75abb28464C8Fd76ce28215fFc9D8197A85",
-            // gas: 1500000,
-            // gasPrice: '20000000000'
-        });
-        console.log(transferCall)
-        return transferCall;
+        const test = await contract.methods.mint(1).send({from:from})
+        // const transferCall = await contract.methods.transfer(
+        //     to, 
+        //     amount
+        // ).send({
+        //     from: from,
+        //     // gas: 1500000,
+        //     // gasPrice: '20000000000'
+        // });
+        // console.log(transferCall)
+        // return transferCall;
+        return test
     } catch (e) {
         return e
     }

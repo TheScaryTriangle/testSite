@@ -6,11 +6,8 @@ import { useContractContext } from '../../context/contractContext';
 import { useWeb3React } from '@web3-react/core'
 import TokenFunctions from '../../web3/TokenFunctions';
 import tokenContractABI from '../../web3/contracts/Token.json'
-import votingContractAPI from '../../web3/contracts/VotingControler.json'
 
-//Formik
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import TokenTransfer from '../../components/TokenTransfer';
 
 /**
  * @dev This is the main dashboard for the site.
@@ -43,11 +40,14 @@ const Dashboard = () => {
         }
     }
 
-
-
     return (
         <div>
             <div>Current balance: {currentBalance}</div>
+            <TokenTransfer
+                currentBalance={currentBalance}
+                contract={contract}
+                account={account}
+            />
         </div>
     )
 }
